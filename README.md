@@ -13,7 +13,7 @@ The task: **Design an algorithm to recognize unseen captchas (e.g. input100.jpg)
 
 ---
 
-## 1.5. Initial Thoughts and Approach Shift
+## 2. Initial Thoughts and Approach Shift
 At first, we considered a **deep learning approach** with CNNs. The intuition was straightforward: feed the raw captcha images into a CNN and let it learn directly.  
 But the dataset is tiny — only 25 labeled samples. Even with data augmentation, training a CNN (we actually tried a **tiny CNN + augmentation**) did not generalize well and accuracy was poor.  
 
@@ -21,7 +21,7 @@ So we decided to pivot towards **classical computer vision + machine learning me
 
 ---
 
-## 2. Step-by-Step Solution Approach
+## 3. Step-by-Step Solution Approach
 
 ### (A) First Attempt: Template Matching 
 - Built a **template library** by splitting characters from the 25 captchas.   
@@ -56,7 +56,7 @@ So we decided to pivot towards **classical computer vision + machine learning me
 
 ---
 
-## 3. Code Evolution Timeline
+## 4. Code Evolution Timeline
 
 | Version | Method | Highlights | Result |
 |---------|--------|------------|--------|
@@ -66,7 +66,7 @@ So we decided to pivot towards **classical computer vision + machine learning me
 
 ---
 
-## 4. Results
+## 5. Results
 
 | Dataset        | Accuracy |
 |----------------|----------|
@@ -86,7 +86,7 @@ Final accuracy = 26/26 = 1.000
 
 ---
 
-## 5. File Structure
+## 6. File Structure
 
 ```
 captcha_pre_yh_package/
@@ -103,7 +103,7 @@ captcha_pre_yh_package/
 
 ---
 
-## 6. How to Run
+## 7. How to Run
 1. Install dependencies:
    ```bash
    pip install opencv-python scikit-learn numpy pillow
@@ -116,7 +116,7 @@ captcha_pre_yh_package/
 
 ---
 
-## 7. Key Takeaways
+## 8. Key Takeaways
 - **Template matching** is simple but lacks generalization.  
 - **HOG + ML classifiers** improve robustness.  
 - **Data augmentation** is critical when training data is tiny.  
