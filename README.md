@@ -100,7 +100,7 @@ captcha_pre_yh_package/
 │   ├── output/        # output00.txt ... output24.txt
 ├── Captchas_Solution_YH_v1.py      # (A) template matching
 ├── Captchas_Solution_YH_v2.py      # (B) HOG + kNN
-├── Captchas_Solution_YH_v3.py   # (C) HOG + augmentation + SVM
+├── Captchas_Solution_YH_final.py   # (C) HOG + augmentation + SVM
 └── README.md
 ```
 
