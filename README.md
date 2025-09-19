@@ -56,25 +56,18 @@ So we decided to pivot towards **classical computer vision + machine learning me
 
 ---
 
-## 4. Code Evolution Timeline
+## 4. Result Comparison Across Versions (26 test captchas, incl. input100.jpg)
 
-| Version | Method | Highlights | Result |
-|---------|--------|------------|--------|
-| **v1** (`captcha_pre_yh_v1.py`) | Template Matching | Split fixed-width chars, MSE against template lib | 100% on training, failed on new captcha |
-| **v2** (`captcha_pre_yh_v2.py`) | HOG + kNN | HOG features + kNN classifier | Better generalization, input100 works, some errors on training set |
-| **v3** (`captcha_pre_yh_final.py`) | HOG + Augmentation + SVM | Connected components, HOG(28x28), augmentation, SVM | 100% accuracy on both training + new captcha |
+| Version | Methodology | Training Size | input100.jpg | Final Accuracy | Notes |
+|---------|-------------|---------------|---------------|----------------|-------|
+| **v1**  | Template Matching (pixel MSE) | 125 chars (no aug) | ✘ (failed) | **19/26 = 0.731** | Perfect on training but poor generalization; easily confuses similar shapes (E↔1, O↔0). |
+| **v2**  | HOG + kNN | 125 chars (no aug) | ✓ (correct) | **22/26 = 0.846** | Better generalization; still some misclassifications (N↔1, P↔F). |
+| **Final** | HOG + Data Aug + SVM | 750 chars (augmented) | ✓ (correct) | **26/26 = 1.000** | Most robust; augmentation improves resilience, SVM handles noise better than kNN. |
+
 
 ---
 
-## 5. Results
-
-| Dataset        | Accuracy |
-|----------------|----------|
-| SampleCaptchas (25 images) | 100% |
-| New image (input100.jpg)   | Correct |
-| **Final accuracy** | **26/26 = 100%** |
-
-Console output:
+## 5. Console output:
 
 ```
 input00.jpg -> pred=EGYK4, gt=EGYK4 ✓
