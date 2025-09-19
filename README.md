@@ -79,10 +79,13 @@ So I decided to try classical computer vision + machine learning methods, which 
 ## 5. Console output:
 
 ```
+[INFO] training size: 750 samples (after augmentation)
+[PRED] input100.jpg -> YMB1Q (saved to pred.txt)
 input00.jpg -> pred=EGYK4, gt=EGYK4 ✓
+input01.jpg -> pred=GRC35, gt=GRC35 ✓
 ...
 input24.jpg -> pred=UHVFO, gt=UHVFO ✓
-input100.jpg -> pred=YMB1Q, gt=YMB1Q ✓
+
 Final accuracy = 26/26 = 1.000
 ```
 
@@ -104,15 +107,31 @@ captcha_pre_yh_package/
 ---
 
 ## 7. How to Run
-1. Install dependencies:
-   ```bash
-   pip install opencv-python scikit-learn numpy pillow
-   ```
-2. Run:
-   ```bash
-   python test.py
-   ```
-3. Output will show predictions vs. ground truth and final accuracy.
+
+### 1. Install dependencies
+All three versions (v1, v2, final) rely on the same Python packages:
+```bash
+pip install opencv-python scikit-learn numpy pillow
+```
+
+### 2. Run Version (A) — Template Matching
+```bash
+python Captchas_Solution_YH_v1.py
+```
+- Prints predictions vs. ground truth and final accuracy.
+
+### 3. Run Version (B) — HOG + kNN
+```bash
+python Captchas_Solution_YH_v2.py
+```
+- Prints predictions vs. ground truth and final accuracy.
+
+### 4. Run Version (C, Final) — HOG + Data Augmentation + SVM
+```bash
+python Captchas_Solution_YH_final.py --train_root sampleCaptchas --im sampleCaptchas/input/input100.jpg --out pred.txt
+```
+- Predicts the captcha specified by `--im` and saves output to `--out`.  
+- Also evaluates on the full dataset (26 captchas) and reports the final accuracy.
 
 ---
 
