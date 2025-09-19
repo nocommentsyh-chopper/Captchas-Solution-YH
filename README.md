@@ -13,10 +13,18 @@ The task: **Design an algorithm to recognize unseen captchas (e.g. input100.jpg)
 
 ---
 
+## 1.5. Initial Thoughts and Approach Shift
+At first, we considered a **deep learning approach** with CNNs. The intuition was straightforward: feed the raw captcha images into a CNN and let it learn directly.  
+But the dataset is tiny — only 25 labeled samples. Even with data augmentation, training a CNN (we actually tried a **tiny CNN + augmentation**) did not generalize well and accuracy was poor.  
+
+So we decided to pivot towards **classical computer vision + machine learning methods**, which are more data-efficient. This led us to the step-by-step approach described next.
+
+---
+
 ## 2. Step-by-Step Solution Approach
 
-### (A) First Attempt: Template Matching
-- Built a **template library** by splitting characters from the 25 captchas.  
+### (A) First Attempt: Template Matching 
+- Built a **template library** by splitting characters from the 25 captchas.   
 - Recognition = compare new character image vs. templates using pixel MSE.  
 - Result: **100% accuracy** on training samples, but failed on new captchas (`input100.jpg`) due to limited generalization.
 
@@ -48,7 +56,17 @@ The task: **Design an algorithm to recognize unseen captchas (e.g. input100.jpg)
 
 ---
 
-## 3. Results
+## 3. Code Evolution Timeline
+
+| Version | Method | Highlights | Result |
+|---------|--------|------------|--------|
+| **v1** (`captcha_pre_yh_v1.py`) | Template Matching | Split fixed-width chars, MSE against template lib | 100% on training, failed on new captcha |
+| **v2** (`captcha_pre_yh_v2.py`) | HOG + kNN | HOG features + kNN classifier | Better generalization, input100 works, some errors on training set |
+| **v3** (`captcha_pre_yh_final.py`) | HOG + Augmentation + SVM | Connected components, HOG(28x28), augmentation, SVM | 100% accuracy on both training + new captcha |
+
+---
+
+## 4. Results
 
 | Dataset        | Accuracy |
 |----------------|----------|
@@ -68,7 +86,7 @@ Final accuracy = 26/26 = 1.000
 
 ---
 
-## 4. File Structure
+## 5. File Structure
 
 ```
 captcha_pre_yh_package/
@@ -77,15 +95,18 @@ captcha_pre_yh_package/
 │   ├── output/        # output00.txt ... output24.txt
 ├── input100.jpg       # unseen captcha for testing
 ├── test.py            # main code (final solution)
-└── README.md          # this file
+├── captcha_pre_yh_v1.py      # (A) template matching
+├── captcha_pre_yh_v2.py      # (B) HOG + kNN
+├── captcha_pre_yh_final.py   # (C) HOG + SVM + augmentation
+└── README.md
 ```
 
 ---
 
-## 5. How to Run
+## 6. How to Run
 1. Install dependencies:
    ```bash
-   pip install opencv-python scikit-learn numpy
+   pip install opencv-python scikit-learn numpy pillow
    ```
 2. Run:
    ```bash
@@ -95,8 +116,8 @@ captcha_pre_yh_package/
 
 ---
 
-## 6. Key Takeaways
+## 7. Key Takeaways
 - **Template matching** is simple but lacks generalization.  
-- **Feature-based methods (HOG + classifier)** provide robustness.  
-- **Data augmentation** is critical when training data is limited.  
+- **HOG + ML classifiers** improve robustness.  
+- **Data augmentation** is critical when training data is tiny.  
 - With these steps, we achieved **100% accuracy on both training and new captchas**.
