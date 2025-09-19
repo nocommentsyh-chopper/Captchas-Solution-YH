@@ -8,18 +8,27 @@ Characteristics:
 - No skew or distortion  
 - Each captcha always has exactly **5 characters**
 
-We are given a sample dataset of **25 captchas** (`input00.jpg`–`input24.jpg`) and their ground-truth labels (`output00.txt`–`output24.txt`).  
+Given a sample dataset of **25 captchas** (`input00.jpg`–`input24.jpg`) and their ground-truth labels (`output00.txt`–`output24.txt`).  
 The task: **Design an algorithm to recognize unseen captchas (e.g. input100.jpg).**
 
 ---
 
 ## 2. Initial Thoughts and Approach Shift
-At first, we considered a **deep learning approach** with CNNs. The intuition was straightforward: feed the raw captcha images into a CNN and let it learn directly.  
-But the dataset is tiny — only 25 labeled samples. Even with data augmentation, training a CNN (we actually tried a **tiny CNN + augmentation**) did not generalize well and accuracy was poor.  
+⚠️ **First observations:**  
+1. The provided dataset was incomplete — it was missing the label file for `input21.jpg`.  
+   To proceed with training, I manually created and added the missing `output21.txt` file so that the training dataset became consistent (25 pairs).  
+2. In the `input/` folder, each captcha also has a corresponding `.txt` file with a 30×60 pixel matrix.  
+   However, I decided **not** to use those `.txt` matrices, because they are essentially redundant encodings of the same captcha images (`.jpg`).  
+   Working directly with `.jpg` images keeps the pipeline simpler and closer to how new captchas will appear in practice.
 
-So we decided to pivot towards **classical computer vision + machine learning methods**, which are more data-efficient. This led us to the step-by-step approach described next.
+
+At first, I considered a deep learning approach with CNNs. The intuition was straightforward: feed the raw captcha images into a CNN and let it learn directly.  
+But the dataset is tiny — only 25 labeled samples. Even with data augmentation, training a CNN (I actually tried a tiny CNN + augmentation) did not generalize well and accuracy was poor.
+
+So I decided to try classical computer vision + machine learning methods, which are more data-efficient. 
 
 ---
+
 
 ## 3. Step-by-Step Solution Approach
 
@@ -84,13 +93,11 @@ Final accuracy = 26/26 = 1.000
 ```
 captcha_pre_yh_package/
 ├── sampleCaptchas/
-│   ├── input/         # input00.jpg ... input24.jpg
+│   ├── input/         # input00.jpg / input00.txt ... input24.jpg + input100.jpg
 │   ├── output/        # output00.txt ... output24.txt
-├── input100.jpg       # unseen captcha for testing
-├── test.py            # main code (final solution)
-├── captcha_pre_yh_v1.py      # (A) template matching
-├── captcha_pre_yh_v2.py      # (B) HOG + kNN
-├── captcha_pre_yh_final.py   # (C) HOG + SVM + augmentation
+├── Captchas_Solution_YH_v1.py      # (A) template matching
+├── Captchas_Solution_YH_v2.py      # (B) HOG + kNN
+├── Captchas_Solution_YH_v3.py   # (C) HOG + augmentation + SVM
 └── README.md
 ```
 
@@ -109,8 +116,8 @@ captcha_pre_yh_package/
 
 ---
 
-## 8. Key Takeaways
+## 8. Conclusion
 - **Template matching** is simple but lacks generalization.  
 - **HOG + ML classifiers** improve robustness.  
 - **Data augmentation** is critical when training data is tiny.  
-- With these steps, we achieved **100% accuracy on both training and new captchas**.
+- With these steps, the proposed approach achieved **100% accuracy on both training and new captchas**.
