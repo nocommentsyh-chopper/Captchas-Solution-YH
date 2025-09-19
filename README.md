@@ -35,22 +35,22 @@ So we decided to pivot towards **classical computer vision + machine learning me
 - Drawback: accuracy dropped slightly on original dataset (confusions like N↔1, P↔F).
 
 ### (C) Final Solution: HOG + Data Augmentation + SVM
-1. **Segmentation**  
+(1). **Segmentation**  
    - Used **connected component analysis** to split characters.  
    - Robust against spacing/background variation.  
 
-2. **Feature Extraction**  
+(2). **Feature Extraction**  
    - Each character resized to `28x28`.  
    - Extracted **HOG features** (cell=7×7, block=14×14).  
 
-3. **Data Augmentation**  
+(3). **Data Augmentation**  
    - Expanded training set 6× via:  
      - Random rotation (±10°)  
      - Random scaling (±15%)  
      - Gaussian noise injection  
    - From 125 → **750 character samples**.  
 
-4. **Classifier**  
+(4). **Classifier**  
    - Used **SVM (RBF kernel)** for robust classification.  
    - More stable than kNN, avoids noise sensitivity.  
 
